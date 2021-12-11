@@ -5,7 +5,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoDbConfig {
-	private String connection = "mongodb+srv://r12:12@dichothuez.vgf8x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+	private String connection = "mongodb+srv://r12:r12@dichothuez.vgf8x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 	private String DbName = "dichothuez";
 	
 	public MongoDatabase createConnection() {
