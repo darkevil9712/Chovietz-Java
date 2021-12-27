@@ -63,8 +63,7 @@ public class JwtAuthenticationController {
     	String jwt = jwtUtils.generateJwtToken(authentication);
     	
     	UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    	String userRole = userDetails.getRolename();
-    	return ResponseEntity.ok(new JwtResponse(jwt, userRole));
+    	return ResponseEntity.ok(new JwtResponse(jwt));
     }
     
 }
