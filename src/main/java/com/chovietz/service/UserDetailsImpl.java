@@ -14,14 +14,14 @@ import com.chovietz.model.User;
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private String id;
 	
 	private String username;
 	private String password;
 	private String rolename;
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	public UserDetailsImpl(int id, String username, String password, String rolename,
+	public UserDetailsImpl(String id, String username, String password, String rolename,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
@@ -49,7 +49,7 @@ public class UserDetailsImpl implements UserDetails {
 		return authorities;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	

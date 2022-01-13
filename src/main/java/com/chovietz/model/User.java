@@ -8,15 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "user")
 public class User {
 	@Id
-	private int id;
+	private String id;
 	private String username;
 	private String password;
 	private String rolename;
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -38,7 +38,7 @@ public class User {
 		this.rolename = rolename;
 	}
 	
-	public User(int id, String username, String password, String rolename) {
+	public User(String id, String username, String password, String rolename) {
 		super();
 		this.id = id;
 		this.username = username;

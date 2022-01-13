@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import com.chovietz.model.User;
 
-public interface UserRepository extends MongoRepository<User, Integer>{
+public interface UserRepository extends MongoRepository<User, String>{
 
 	@Query("{username:'?0'}")
 	User findByUsername(String username);
