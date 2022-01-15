@@ -54,7 +54,7 @@ public class JwtAuthenticationController {
     				.badRequest()
     				.body("Error");
     	}
-    	User user = userRepository.save(new User(userreq.getId(), userreq.getUsername(),encoder.encode(userreq.getPassword()), "customer", userreq.getEmail(), userreq.getAddress(), userreq.getBirthday(), userreq.getName(), userreq.getPhoneNumber(), "active"));
+    	User user = userRepository.save(new User(userreq.getId(), userreq.getUsername(),encoder.encode(userreq.getPassword()), "customer", userreq.getEmail(),userreq.getCmnd(), userreq.getAddress(), userreq.getBirthday(), userreq.getName(), userreq.getPhoneNumber(), "active"));
     	return ResponseEntity.ok(null);
     }
     @PostMapping("/signin")
