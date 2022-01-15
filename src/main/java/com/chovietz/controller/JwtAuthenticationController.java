@@ -1,6 +1,7 @@
 package com.chovietz.controller;
 
 import java.util.Objects;
+import java.text.ParseException;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import com.chovietz.repository.UserRepository;
 import com.chovietz.service.JwtUserDetailsService;
 import com.chovietz.service.UserDetailsImpl;
 
+
 @RestController
 @RequestMapping("api/public")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -47,12 +49,12 @@ public class JwtAuthenticationController {
     
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User userreq){
-//    	if(userRepository.existByUsername(user.getUsername())) {
-//    		return ResponseEntity
-//    				.badRequest()
-//    				.body("Error");
-//    	}
-    	User user = userRepository.save(new User(userreq.getId(), userreq.getUsername(),encoder.encode(userreq.getPassword()),userreq.getRolename()));
+    	if(userRepository.findByUsername(userreq.getUsername()) != null) {
+    		return ResponseEntity
+    				.badRequest()
+    				.body("Error");
+    	}
+    	User user = userRepository.save(new User(userreq.getId(), userreq.getUsername(),encoder.encode(userreq.getPassword()), "customer", userreq.getEmail(), userreq.getAddress(), userreq.getBirthday(), userreq.getName(), userreq.getPhoneNumber(), "active"));
     	return ResponseEntity.ok(null);
     }
     @PostMapping("/signin")
