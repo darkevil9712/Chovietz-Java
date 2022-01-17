@@ -1,13 +1,19 @@
 package com.chovietz.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.chovietz.model.Order;
+import com.chovietz.model.User;
 import com.chovietz.repository.OrderRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,17 +57,20 @@ public class OrderController {
 	}
 
 
-	@RequestMapping("/shop/{id}")
-	public ResponseEntity<List<Order>> getAllOrderByShop(@PathVariable("id") String id) {
-		try {
-         
+	@RequestMapping("/shop/{id}/{page}/{size}")
+	public ResponseEntity<Map<String, Object>> getAllOrderByShop(@PathVariable("id") String id,@PathVariable("page") int page,@PathVariable("size") int size) {
+		try {   
+			Pageable paging = PageRequest.of(page,size);
 			List<Order> orderlst = new ArrayList<Order>();
-			orderRepository.findAll().forEach(orderlst::add);
-            
-			if (orderlst.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(orderlst, HttpStatus.OK);
+			Page<Order> pageTuts = orderRepository.findByShopID(id, paging);
+				
+			orderlst = pageTuts.getContent();
+			Map<String, Object> response = new HashMap<>();
+			response.put("orders", orderlst);
+			response.put("currentPage", pageTuts.getNumber());
+			response.put("totalItems", pageTuts.getTotalElements());
+			response.put("totalPages", pageTuts.getTotalPages());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
                 System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

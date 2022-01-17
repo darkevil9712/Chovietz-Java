@@ -11,8 +11,6 @@ import com.chovietz.model.Order;
 
 public interface OrderRepository extends MongoRepository<Order, String>{
 
-	@Query(value ="{'shop.$_id': '?0'}")
-	List<Order> getListOrderByShop(String id);
     
-	Page<Order> getOrdersByShop(String id, Pageable pageable);
+	Page<Order> findByShopID(String shopID, Pageable pageable);
 }

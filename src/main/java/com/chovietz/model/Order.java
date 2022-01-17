@@ -13,12 +13,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Order {
 	@Id
 	private String id;
-	private Object customer;
+	private User customer;
 
 
 	private String delivery_address;
 	private String status;
-	private Object shop;
+	private String shopID;
+	private User shop;
 	private Object shipper;
 	private String payment_type;
 	private Boolean is_paid;
@@ -26,7 +27,7 @@ public class Order {
 	private int month;
 	private int quater;
 	private int year;
-		public Order(String id,Object customer, String delivery_address, String status, Object shop, Object shipper,
+		public Order(String id,User customer, String delivery_address, String status, User shop, Object shipper,
 			String payment_type, Boolean is_paid, Object[] product) {
 			this.id = id;
 				this.customer = customer;
@@ -38,6 +39,12 @@ public class Order {
 		this.is_paid = is_paid;
 		this.product = product;
 	}
+	public String getShopID() {
+			return shopID;
+		}
+		public void setShopID(String shopID) {
+			this.shopID = shopID;
+		}
 	public String getId() {
 		return id;
 	}
@@ -45,11 +52,11 @@ public class Order {
 		super();
 	}
 
-	public Object getCustomer() {
+	public User getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Object customer) {
+	public void setCustomer(User customer) {
 		this.customer = customer;
 	}
 
@@ -69,11 +76,11 @@ public class Order {
 		this.status = status;
 	}
 
-	public Object getShop() {
+	public User getShop() {
 		return shop;
 	}
 
-	public void setShop(Object shop) {
+	public void setShop(User shop) {
 		this.shop = shop;
 	}
 
