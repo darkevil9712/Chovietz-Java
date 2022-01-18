@@ -10,7 +10,16 @@ import java.util.List;
 import com.chovietz.model.Order;
 
 public interface OrderRepository extends MongoRepository<Order, String>{
+	@Query("{shop.$_id:'?0'}")
+	List<Order> findByID(String id);
 
+	@Query("{customer.$_id:'?0'}")
+	List<Order> findByCustomer(String id);
+
+	@Query("{shipper.$_id:'?0'}")
+	List<Order> findByShipper(String id);
     
 	Page<Order> findByShopID(String shopID, Pageable pageable);
+	Page<Order> findByCustomerID(String customerID, Pageable pageable);
+	Page<Order> findByShipperID(String shipperID, Pageable pageable);
 }

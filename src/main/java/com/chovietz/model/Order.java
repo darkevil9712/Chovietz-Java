@@ -1,9 +1,8 @@
 package com.chovietz.model;
 
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +26,7 @@ public class Order {
 	private int month;
 	private int quater;
 	private int year;
+	private Date created_date;
 		public Order(String id,User customer, String delivery_address, String status, User shop, Object shipper,
 			String payment_type, Boolean is_paid, Object[] product) {
 			this.id = id;
@@ -39,6 +39,12 @@ public class Order {
 		this.is_paid = is_paid;
 		this.product = product;
 	}
+	public Date getCreated_date() {
+			return created_date;
+		}
+		public void setCreated_date(Date created_date) {
+			this.created_date = created_date;
+		}
 	public String getShopID() {
 			return shopID;
 		}
