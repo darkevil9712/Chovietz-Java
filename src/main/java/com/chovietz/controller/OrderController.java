@@ -1,6 +1,9 @@
 package com.chovietz.controller;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +38,22 @@ public class OrderController {
 
     @PostMapping("")
     public ResponseEntity<?> createOrder(@RequestBody Order orderReq){
-        System.out.println(orderReq);
         try {
                 Order requestOrder = new Order(orderReq.getId(), orderReq.getCustomer(), orderReq.getDelivery_address(),orderReq.getStatus(), orderReq.getShop(),
                 orderReq.getShipper(), orderReq.getPayment_type(), orderReq.getIs_paid(), orderReq.getProduct());
-                Order order = orderRepository.save( requestOrder);
+                
+				if(orderReq.getCustomer() != null) requestOrder.setCustomerID(orderReq.getCustomer().getId() +"");
+                if(orderReq.getShop() != null) requestOrder.setCustomerID(orderReq.getShop().getId() +"");
+                if(orderReq.getShipper() != null) requestOrder.setCustomerID(orderReq.getShipper().getId() +"");
+				
+				requestOrder.setCreated_date(new Date());
+				LocalDate today = LocalDate.now();
+				int month = today.getMonthValue();
+				requestOrder.setMonth(month);
+				requestOrder.setQuater((int)Math.ceil(month / 4.0));
+				requestOrder.setYear(today.getYear());
+
+				Order order = orderRepository.save( requestOrder);
               return new ResponseEntity<>(order, HttpStatus.CREATED);
         	} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,7 +80,7 @@ public class OrderController {
 		try {   
 			List<Order> orderlst = new ArrayList<Order>();
 			if(page < 0 || size < 0){
-				orderlst = orderRepository.findByShop(id); 
+				orderlst = orderRepository.findByShopID(id); 
 				if (orderlst.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
@@ -79,7 +93,7 @@ public class OrderController {
 			}
 			Pageable paging = PageRequest.of(page,size, Sort.by("_id").descending());
 			
-			Page<Order> pageTuts = orderRepository.findByShopID(id, paging);
+			Page<Order> pageTuts = orderRepository.findByShopID(id + "", paging);
 				
 			orderlst = pageTuts.getContent();
 			Map<String, Object> response = new HashMap<>();
@@ -100,7 +114,7 @@ public class OrderController {
 		try {   
 			List<Order> orderlst = new ArrayList<Order>();
 			if(page < 0 || size < 0){
-				orderlst = orderRepository.findByCustomer(id);  
+				orderlst = orderRepository.findByCustomerID(id);  
 				if (orderlst.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
@@ -134,7 +148,7 @@ public class OrderController {
 		try {   
 			List<Order> orderlst = new ArrayList<Order>();
 			if(page < 0 || size < 0){
-				orderlst = orderRepository.findByShipper(id); 
+				orderlst = orderRepository.findByShipperID(id); 
 				if (orderlst.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
